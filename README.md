@@ -35,7 +35,7 @@ wget -O install.sh http://download.bt.cn/install/install-ubuntu.sh && sudo bash 
     ![添加网站](添加网站.png)
     + 修改 MySQL 密码
     ![MySQL密码](mysql密码.png)
-    + 检查 phpmyadmin, 如果出现 502 bad gateway, 检查配置项
+    + 检查 phpmyadmin, 如果出现 502 bad gateway, 检查配置项
     ![phpmyadmin配置](phpmyadmin配置.png)
     + 解除 PHP 禁用函数
     ![PHP解禁](PHP解禁.png)
@@ -55,7 +55,7 @@ git reset --hard
 # 设置权限
 sudo chmod 777 storage
 ```
-3. 继续配置宝塔面板
+3. 继续配置宝塔面板
     + 伪静态 ( 用于将 domain 映射到 domain/index.php )
     ![伪静态](伪静态.png)
     ```
@@ -67,7 +67,7 @@ sudo chmod 777 storage
     ![运行目录](运行目录.png)
 4. 配置数据库
 ```
-# 将会要求你输入密码
+# 将会要求你输入密码
 mysql -uroot -p
 ```
 然后在MySQL环境中
@@ -106,6 +106,11 @@ sudo chmod +x backend_install_ubuntu_18.sh
 sudo ./backend_install_ubuntu_18.sh
 ```
 2. 输入
+    + 数据库地址: localhost
+    + 数据库名称: sspanel (与前端一致)
+    + 数据库用户: root
+    + 数据库密码: 你的密码
+    + 节点编号: 3 (与控制面板一致)
 3. 运行测试
 ```
 sudo python /soft/shadowsocks/server.py
