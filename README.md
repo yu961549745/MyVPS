@@ -124,3 +124,12 @@ sudo /soft/shadowsocks/run.sh
 ![端口放行](端口放行.png)
 
 ## 在用户面板试用节点
+
+## Google 学术被禁解决方案
+`/etc/hosts`修改
+```
+2404:6800:4004:81a::200e scholar.google.cn
+2404:6800:4004:81a::200e scholar.google.com.hk
+2404:6800:4004:81a::200e scholar.google.com
+2404:6800:4004:81a::200e scholar.l.google.com
+```
