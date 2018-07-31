@@ -30,8 +30,20 @@ wget -O install.sh http://download.bt.cn/install/install-ubuntu.sh && sudo bash 
 
 ## 配置 sspanel 前端
 从此处开始所有的命令都在 `/www/wwwroot/自己的域名` 下执行
-1. 部署前端
+1. 配置宝塔面板
+    + 添加站点，输入绑定域名
+    ![添加网站](添加网站.png)
+    + 修改 MySQL 密码
+    ![MySQL密码](mysql密码.png)
+    + 检查 phpmyadmin, 如果出现 502 bad gateway, 检查配置项
+    ![phpmyadmin配置](phpmyadmin配置.png)
+    + 解除 PHP 禁用函数
+    ![PHP解禁](PHP解禁.png)
+2. 部署前端
 ```
+cd /www/wwwroot/你的域名
+# 开启所有权限
+sudo chmod 777 .
 # 从自己的备份 clone sspanel 目标文件夹为 tmp
 git clone https://github.com/yu961549745/ss-panel-v3-mod_Uim.git tmp 
 # 移动 git 文件
@@ -40,11 +52,10 @@ mv tmp/.git .
 rm -rf tmp
 # 利用 git 恢复所有代码
 git reset --hard
+# 设置权限
+sudo chmod 777 storage
 ```
-2. 配置宝塔面板
-    + 添加站点
-    + 配置运行目录
-    ![运行目录](运行目录.png)
+3. 继续配置宝塔面板
     + 伪静态 ( 用于将 domain 映射到 domain/index.php )
     ![伪静态](伪静态.png)
     ```
@@ -52,27 +63,45 @@ git reset --hard
         try_files $uri $uri/ /index.php$is_args$args;
     }
     ```
-    + 修改 MySQL 密码
-    ![MySQL密码](mysql密码.png)
-    + 解除 PHP 禁用函数
-3. 配置数据库
-3. 配置项目
+    + 配置运行目录
+    ![运行目录](运行目录.png)
+4. 配置数据库
+```
+# 将会要求你输入密码
+mysql -uroot -p
+```
+然后在MySQL环境中
+```
+create database sspanel;
+source 'sql/glzjin_all.sql';
+quit;
+```
+5. 配置项目
     + 修改 `config/.config.php`
+    ```
+    cd config
+    cp .config.php.example .config.php
+    cd ..
+    ```
+    按需修改基本配置
+    ![修改config](修改config.png)
     + 安装依赖
     ```
     php composer.phar install
     ```
+    ![php依赖安装成功](php依赖安装成功.png)
     + 创建管理员账号
     ```
     php -n xcat createAdmin
     ```
     + 登录管理员账号，并在管理页面添加节点
+    ![添加节点](添加节点.png)
 
 ## 配置 shadowsocks 后端
 1. 利用一件安装脚本安装 shadowsocks 后端，经测试兼容 Ubuntu16.04
 ```
 # 直接下载并运行一键安装脚本
-wget https://github.com/yu961549745/ss-panel-mod-v3-backend-server-install-scripts.git
+wget https://raw.githubusercontent.com/yu961549745/ss-panel-mod-v3-backend-server-install-scripts/master/backend_install_ubuntu_18.sh
 sudo chmod +x backend_install_ubuntu_18.sh 
 sudo ./backend_install_ubuntu_18.sh
 ```
@@ -81,10 +110,12 @@ sudo ./backend_install_ubuntu_18.sh
 ```
 sudo python /soft/shadowsocks/server.py
 ```
+![测试运行](测试运行.png)
 4. 正式运行
 ```
-sudo python /soft/shadowsocks/run.py
+sudo /soft/shadowsocks/run.sh
 ```
 4. 宝塔面板端口放行
+![端口放行](端口放行.png)
 
 ## 在用户面板试用节点
