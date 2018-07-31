@@ -11,7 +11,7 @@ VPS自建教程记录
 5. 记录服务器IP
 6. 按照 AWS 提示连接服务器
 
-## 获取免费域名
+## 获取免费域名
 1. 在 [Freenom](freenom.com) 注册登录并填写必要信息
 2. 搜索一个免费域名，填入服务器IP并购买
 ![配置域名](3.png)
@@ -30,7 +30,7 @@ wget -O install.sh http://download.bt.cn/install/install-ubuntu.sh && sudo bash 
 
 ## 配置 sspanel 前端
 从此处开始所有的命令都在 `/www/wwwroot/自己的域名` 下执行
-1. 部署前端
+1. 部署前端
 ```
 # 从自己的备份 clone sspanel 目标文件夹为 tmp
 git clone https://github.com/yu961549745/ss-panel-v3-mod_Uim.git tmp 
@@ -81,7 +81,7 @@ sudo ./backend_install_ubuntu_18.sh
 ```
 sudo python /soft/shadowsocks/server.py
 ```
-4. 正式运行
+4. 正式运行
 ```
 sudo python /soft/shadowsocks/run.py
 ```
