@@ -11,4 +11,6 @@ wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/docker-install.s
 3. 配置节点
 ![](imgs/s4.png)
 
-缺点: 不是 shadowsocksR + sspanel v3 mod
+缺点: 
++ 不是 shadowsocksR + sspanel v3 mod
++ 节点添加不方便
