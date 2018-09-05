@@ -1,0 +1,1 @@
+sudo less sslog.log
