@@ -20,5 +20,7 @@ echo "{
 sudo python $server -p $port -m $method -k $psw --log-file sslog.log -d start
 echo "show server info by "
 echo "              cat $config_file"
-echo "reset server by "
+echo "reset and start server by "
 echo "              rm -f $config_file && sh start.sh"
+echo "start server by this config"
+echo "              sh start.sh"
