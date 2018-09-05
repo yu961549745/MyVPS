@@ -1,0 +1,5 @@
+{
+    "server_port": 10086,
+    "password": "yjt",
+    "method": "aes-256-cfb"
+}
