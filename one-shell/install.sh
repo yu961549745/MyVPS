@@ -7,15 +7,6 @@ apt install -y nginx mysql-server php7.0 php7.0-fpm php7.0-mysql php7.0-gd php7.
 # 时区设置
 dpkg-reconfigure tzdata
 
-# sspanel 安装
-cd /var/www
-chmod -R 777 .
-git clone https://github.com/yu961549745/ss-panel-v3-mod_Uim.git sspanel
-cd sspanel
-
-# 配置站点
-cd config
-cp .config.php.example .config.php 
 echo "------------ config sspanel ------------"
 echo -n "app key (random set for security): "
 read app_key
@@ -23,16 +14,44 @@ echo -n "app name: "
 read app_name
 echo -n "app url: "
 read app_url
-echo -n "db host: "
-read db_host
+echo -n "db ip: "
+read db_ip
 echo -n "db database: "
-read db_database
+read db_name
 echo -n "db username: "
-read db_username
+read db_user
 echo -n "db password: "
 read db_password
-sed -i -e "s/$System_Config['key'] = '1145141919810';/$System_Config['key'] = '${app_key}';/g"
+echo -n "server node ID:"
+read node_id
 
+app_name="ss-yjt"
+app_key="ss-yjt"
+app_url=""
+db_ip="localhost"
+db_name="sspanel"
+db_user="root"
+db_password="12345678"
+node_id=3
+
+# sspanel 安装
+cd /var/www
+chmod -R 777 .
+git clone https://github.com/yu961549745/ss-panel-v3-mod_Uim.git sspanel
+cd sspanel
+# 配置站点
+cd config
+cp .config.php.example .config.php 
+sed -i -e "s/$System_Config['key'] = '1145141919810'/$System_Config['key'] = '$app_key'/g" -e "s/$System_Config['appName'] = 'sspanel'/$System_Config['appName'] = '$app_name'/g" -e "s/$System_Config['baseUrl'] = 'http://url.com'/$System_Config['baseUrl'] = '$app_url'/g" -e "s/$System_Config['db_host'] = 'localhost'/$System_Config['db_host'] = '$db_ip'/g" -e "s/$System_Config['db_database'] = 'sspanel'/$System_Config['db_database'] = '$db_name'/g" -e "s/$System_Config['db_username'] = 'root'/$System_Config['db_username'] = '$db_user'/g" -e "s/$System_Config['db_password'] = 'sspanel'/$System_Config['db_password'] = '$db_password'/g"
+cd ..
+# 创建数据库
+mysql -u$db_user -p$db_password -e "create table $db_name; use $db_name; source sql/glzjin_all.sql;"
+# 安装依赖
+php composer.phar install
+# 创建管理员账号
+php xcat createAdmin
+
+# shadowsocks 后端安装
 echo "Installing libsodium..."
 wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
 tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
@@ -40,8 +59,6 @@ tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
 echo /usr/local/lib > /etc/ld.so.conf.d/usr_local_lib.conf
 ldconfig
 cd ../ && rm -rf libsodium*
-
-# shadowsocks 后端安装
 echo "Installing Shadowsocksr server from GitHub..."
 mkdir /soft && cd /soft
 git clone -b manyuser https://github.com/esdeathlove/shadowsocks.git
@@ -52,16 +69,13 @@ echo "Generating config file..."
 cp apiconfig.py userapiconfig.py
 cp config.json user-config.json
 sed -i -e "s/'modwebapi'/'glzjinmod'/g" userapiconfig.py
-echo -n "Please enter database server's IP address:"
-read db_ip
-echo -n "DB name:"
-read db_name
-echo -n "DB username:"
-read db_user
-echo -n "DB password:"
-read db_password
-echo -n "Server node ID:"
-read node_id
 echo "Writting config..."
 sed -i -e "s/NODE_ID = 1/NODE_ID = ${node_id}/g" -e "s/MYSQL_HOST = '127.0.0.1'/MYSQL_HOST = '${db_ip}'/g" -e "s/MYSQL_USER = 'ss'/MYSQL_USER = '${db_user}'/g" -e "s/MYSQL_PASS = 'ss'/MYSQL_PASS = '${db_password}'/g" -e "s/MYSQL_DB = 'shadowsocks'/MYSQL_DB = '${db_name}'/g" userapiconfig.py
-echo "Running system optimization and
+
+# 配置和重启 Nginx
+cd /etc/nginx/sites-a...
+sudo wget ...
+cd ../sites-e...
+sudo ln -s ../sites-a.../sspanel sspanel
+sudo service nginx restart
+sudo /soft/shadowsocks/run.sh

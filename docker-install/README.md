@@ -5,7 +5,7 @@
 ![](imgs/s2.png)
 2. 一键安装
 ```bash
-wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/docker-install.sh && sudo sh docker-install.sh
+wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/docker-install/install.sh && sudo sh docker-install.sh
 ```
 ![](imgs/s3.png)
 3. 配置节点
