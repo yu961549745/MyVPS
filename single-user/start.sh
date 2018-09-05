@@ -1,7 +1,7 @@
-server=`python -m site --user-site`/shadowsocks/server.py
+server=ssserver
 config_file="ss.config.json"
 if [ -f "$config_file" ]; then
-    sudo python $server -c $config_file --log-file sslog.log -d start
+    sudo $server -c $config_file --log-file sslog.log -d start
     exit
 else
     echo "config ss server ..."
@@ -17,7 +17,7 @@ echo "{
     \"password\": \"$psw\",
     \"method\": \"$method\"
 }" > $config_file
-sudo python $server -p $port -m $method -k $psw --log-file sslog.log -d start
+sudo $server -p $port -m $method -k $psw --log-file sslog.log -d start
 echo "show server info by "
 echo "              cat $config_file"
 echo "reset and start server by "
