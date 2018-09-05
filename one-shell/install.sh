@@ -1,33 +1,33 @@
 # 环境安装
 apt clean all && apt autoremove -y && apt update --fix-missing && apt upgrade -y && apt dist-upgrade -y
 # git python
-apt install git python-setuptools python-pip build-essential ntpdate htop -y
+apt install git python python-setuptools python-pip build-essential ntpdate htop -y
 # lnmp
-apt install -y nginx mysql-server php7.0 php7.0-fpm php7.0-mysql php7.0-gd php7.0-mbstring php7.0-zip 
+apt install -y nginx mysql-server php7.0 php7.0-fpm php7.0-mysql php7.0-gd php7.0-mbstring php7.0-zip php7.0-curl
 # 时区设置
 dpkg-reconfigure tzdata
 
-echo "------------ config sspanel ------------"
-echo -n "app key (random set for security): "
-read app_key
-echo -n "app name: "
-read app_name
-echo -n "app url: "
-read app_url
-echo -n "db ip: "
-read db_ip
-echo -n "db database: "
-read db_name
-echo -n "db username: "
-read db_user
-echo -n "db password: "
-read db_password
-echo -n "server node ID:"
-read node_id
+# echo "------------ config sspanel ------------"
+# echo -n "app key (random set for security): "
+# read app_key
+# echo -n "app name: "
+# read app_name
+# echo -n "app url: "
+# read app_url
+# echo -n "db ip: "
+# read db_ip
+# echo -n "db database: "
+# read db_name
+# echo -n "db username: "
+# read db_user
+# echo -n "db password: "
+# read db_password
+# echo -n "server node ID:"
+# read node_id
 
 app_name="ss-yjt"
 app_key="ss-yjt"
-app_url=""
+app_url="54.174.179.173"
 db_ip="localhost"
 db_name="sspanel"
 db_user="root"
@@ -42,10 +42,11 @@ cd sspanel
 # 配置站点
 cd config
 cp .config.php.example .config.php 
-sed -i -e "s/$System_Config['key'] = '1145141919810'/$System_Config['key'] = '$app_key'/g" -e "s/$System_Config['appName'] = 'sspanel'/$System_Config['appName'] = '$app_name'/g" -e "s/$System_Config['baseUrl'] = 'http://url.com'/$System_Config['baseUrl'] = '$app_url'/g" -e "s/$System_Config['db_host'] = 'localhost'/$System_Config['db_host'] = '$db_ip'/g" -e "s/$System_Config['db_database'] = 'sspanel'/$System_Config['db_database'] = '$db_name'/g" -e "s/$System_Config['db_username'] = 'root'/$System_Config['db_username'] = '$db_user'/g" -e "s/$System_Config['db_password'] = 'sspanel'/$System_Config['db_password'] = '$db_password'/g"
+python ~/strrep.py .config.php "$System_Config['key'] = '1145141919810'" "$System_Config['key'] = '$app_key'"  "$System_Config['appName'] = 'sspanel'" "$System_Config['appName'] = '$app_name'"   "$System_Config['baseUrl'] = 'http://url.com'" "$System_Config['baseUrl'] = '$app_url'"  "$System_Config['db_host'] = 'localhost'" "$System_Config['db_host'] = '$db_ip'"  "$System_Config['db_database'] = 'sspanel'" "$System_Config['db_database'] = '$db_name'"  "$System_Config['db_username'] = 'root'" "$System_Config['db_username'] = '$db_user'"  "$System_Config['db_password'] = 'sspanel'" "$System_Config['db_password'] = '$db_password'" 
+
 cd ..
 # 创建数据库
-mysql -u$db_user -p$db_password -e "create table $db_name; use $db_name; source sql/glzjin_all.sql;"
+mysql -u$db_user -p$db_password -e "create database $db_name; use $db_name; source sql/glzjin_all.sql;"
 # 安装依赖
 php composer.phar install
 # 创建管理员账号
@@ -68,14 +69,12 @@ python -m pip install -r requirements.txt
 echo "Generating config file..."
 cp apiconfig.py userapiconfig.py
 cp config.json user-config.json
-sed -i -e "s/'modwebapi'/'glzjinmod'/g" userapiconfig.py
-echo "Writting config..."
-sed -i -e "s/NODE_ID = 1/NODE_ID = ${node_id}/g" -e "s/MYSQL_HOST = '127.0.0.1'/MYSQL_HOST = '${db_ip}'/g" -e "s/MYSQL_USER = 'ss'/MYSQL_USER = '${db_user}'/g" -e "s/MYSQL_PASS = 'ss'/MYSQL_PASS = '${db_password}'/g" -e "s/MYSQL_DB = 'shadowsocks'/MYSQL_DB = '${db_name}'/g" userapiconfig.py
+python ~/strrep.py userapiconfig.py "'modwebapi'" "'glzjinmod'" "NODE_ID = 1" "NODE_ID = ${node_id}" "MYSQL_HOST = '127.0.0.1'" "MYSQL_HOST = '${db_ip}'" "MYSQL_USER = 'ss'" "MYSQL_USER = '${db_user}'" "MYSQL_PASS = 'ss'" "MYSQL_PASS = '${db_password}'" "MYSQL_DB = 'shadowsocks'" "MYSQL_DB = '${db_name}'"
 
 # 配置和重启 Nginx
-cd /etc/nginx/sites-a...
-sudo wget ...
+cd /etc/nginx/sites-available/
+wget ...
 cd ../sites-e...
-sudo ln -s ../sites-a.../sspanel sspanel
-sudo service nginx restart
-sudo /soft/shadowsocks/run.sh
+ln -s ../sites-a.../sspanel sspanel
+service nginx restart
+/soft/shadowsocks/run.sh
