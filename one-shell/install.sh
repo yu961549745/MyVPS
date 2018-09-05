@@ -114,7 +114,7 @@ fi
 service nginx restart
 
 # 后续步骤
-echo "打开 http://your_server_domain 添加节点"
+echo "打开 $app_url 添加节点"
 echo "sudo python /soft/shadowsocks/server.py 测试运行"
 echo "sudo /soft/shadowsocks/run.sh 正式运行"
 echo "1025 端口貌似有问题, 建议新申请账号进行使用"
