@@ -10,7 +10,7 @@ echo -n "port: "
 read port
 echo -n "password: "
 read psw
-echo "method: (aes-256-cfb | aes-256-cfb1 | aes-256-cfb8 | aes-256-ctr | rc4-md5)"
+echo "method: ( aes-256-cfb | aes-256-cfb1 | aes-256-cfb8 | aes-256-ctr | rc4-md5 )"
 read method
 echo "{
     \"server_port\": $port,
