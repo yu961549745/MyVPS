@@ -101,7 +101,7 @@ quit;
 1. 利用一件安装脚本安装 shadowsocks 后端，经测试兼容 Ubuntu16.04
 ```
 # 直接下载并运行一键安装脚本
-wget https://raw.githubusercontent.com/yu961549745/ss-panel-mod-v3-backend-server-install-scripts/master/backend_install_ubuntu_18.sh
+wget https://raw.githubusercontent.com/YihanH/ss-panel-mod-v3-backend-server-install-scripts/master/backend_install_ubuntu_18.sh
 sudo chmod +x backend_install_ubuntu_18.sh 
 sudo ./backend_install_ubuntu_18.sh
 ```
