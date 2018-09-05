@@ -34,6 +34,8 @@ db_user="root"
 db_password="12345678"
 node_id=3
 
+wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/one-shell/strrep.py
+
 # sspanel 安装
 cd /var/www
 chmod -R 777 .
@@ -53,6 +55,7 @@ php composer.phar install
 php xcat createAdmin
 
 # shadowsocks 后端安装
+cd ~
 echo "Installing libsodium..."
 wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
 tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
@@ -72,10 +75,10 @@ cp config.json user-config.json
 python ~/strrep.py userapiconfig.py "'modwebapi'" "'glzjinmod'" "NODE_ID = 1" "NODE_ID = ${node_id}" "MYSQL_HOST = '127.0.0.1'" "MYSQL_HOST = '${db_ip}'" "MYSQL_USER = 'ss'" "MYSQL_USER = '${db_user}'" "MYSQL_PASS = 'ss'" "MYSQL_PASS = '${db_password}'" "MYSQL_DB = 'shadowsocks'" "MYSQL_DB = '${db_name}'"
 
 # 配置和重启 Nginx
-cd /etc/nginx/sites-available/
+cd /etc/nginx/sites-available
 wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/one-shell/sspanel.conf -O sspanel
 cd ../sites-enabled
 ln -s ../sites-available/sspanel sspanel
 rm default
 service nginx restart
-/soft/shadowsocks/run.sh
+# /soft/shadowsocks/run.sh
