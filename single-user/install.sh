@@ -4,3 +4,4 @@ pip install shadowsocks-py
 wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/single-user/start.sh
 wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/single-user/stop.sh
 wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/single-user/showlog.sh
+sh start.sh 
