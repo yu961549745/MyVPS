@@ -12,9 +12,9 @@ echo -n "app key (random set for security): "
 read app_key
 echo -n "app name: "
 read app_name
-echo -n "app url: "
+echo -n "app url (http://domain.com): "
 read app_url
-echo -n "db ip: "
+echo -n "db ip (localhost): "
 read db_ip
 echo -n "db database: "
 read db_name
@@ -70,6 +70,7 @@ python $root/strrep.py userapiconfig.py "'modwebapi'" "'glzjinmod'" "NODE_ID = 1
 cd /etc/nginx/sites-available
 wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/one-shell/sspanel.conf -O sspanel
 cd ../sites-enabled
+rm -f default
 ln -s ../sites-available/sspanel default
 
 # Google BBR 
