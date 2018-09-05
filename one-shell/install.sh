@@ -73,8 +73,9 @@ python ~/strrep.py userapiconfig.py "'modwebapi'" "'glzjinmod'" "NODE_ID = 1" "N
 
 # 配置和重启 Nginx
 cd /etc/nginx/sites-available/
-wget ...
-cd ../sites-e...
-ln -s ../sites-a.../sspanel sspanel
+wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/one-shell/sspanel.conf -O sspanel
+cd ../sites-enabled
+ln -s ../sites-available/sspanel sspanel
+rm default
 service nginx restart
 /soft/shadowsocks/run.sh
