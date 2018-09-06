@@ -47,7 +47,7 @@ php composer.phar install
 php xcat createAdmin
 
 # shadowsocks 后端安装
-cd ~
+cd $root
 echo "Installing libsodium..."
 wget https://github.com/jedisct1/libsodium/releases/download/1.0.16/libsodium-1.0.16.tar.gz
 tar xf libsodium-1.0.16.tar.gz && cd libsodium-1.0.16
@@ -72,40 +72,14 @@ wget https://raw.githubusercontent.com/yu961549745/MyVPS/master/one-shell/sspane
 cd ../sites-enabled
 rm -f default
 ln -s ../sites-available/sspanel default
+cd $root
 
 # Google BBR 
 echo -n "Do you want Google BBR (y/n): "
 read use_bbr
 if [[ $use_bbr == y ]]
 then
-echo "Running system optimization and enable Google BBR..."
-echo "tcp_bbr" > /etc/modules-load.d/modules.conf
-cat > /etc/security/limits.conf << EOF
-* soft nofile 51200
-* hard nofile 51200
-EOF
-ulimit -n 51200
-cat > /etc/sysctl.conf << EOF
-fs.file-max = 51200
-net.core.default_qdisc = fq
-net.core.rmem_max = 67108864
-net.core.wmem_max = 67108864
-net.core.netdev_max_backlog = 250000
-net.core.somaxconn = 4096
-net.ipv4.tcp_congestion_control = bbr
-net.ipv4.tcp_syncookies = 1
-net.ipv4.tcp_tw_reuse = 1
-net.ipv4.tcp_fin_timeout = 30
-net.ipv4.tcp_keepalive_time = 1200
-net.ipv4.ip_local_port_range = 10000 65000
-net.ipv4.tcp_max_syn_backlog = 8192
-net.ipv4.tcp_max_tw_buckets = 5000
-net.ipv4.tcp_fastopen = 3
-net.ipv4.tcp_rmem = 4096 87380 67108864
-net.ipv4.tcp_wmem = 4096 65536 67108864
-net.ipv4.tcp_mtu_probing = 1
-EOF
-sysctl -p
+wget https://github.com/teddysun/across/raw/master/bbr.sh && chmod +x bbr.sh && ./bbr.sh
 else 
 echo "no bbr"
 fi
@@ -117,5 +91,5 @@ service nginx restart
 echo "打开 $app_url 添加节点"
 echo "sudo python /soft/shadowsocks/server.py 测试运行"
 echo "sudo /soft/shadowsocks/run.sh 正式运行"
-echo "1025 端口貌似有问题, 建议新申请账号进行使用"
+echo "校园网环境下 1025 端口貌似有问题, 建议新申请账号进行使用"
 echo "而且总觉得 pannel 有问题, js 加载很慢"
